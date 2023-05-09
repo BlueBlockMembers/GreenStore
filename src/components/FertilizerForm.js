@@ -1,100 +1,67 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
 import "./FertilizerForm.css";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const FertilizerForm = ({ onFertilizerSubmit }) => {
-  const [fertilizer, setFertilizer] = useState({
-    name: "",
-    weight: "",
-    price: "",
-    manufacturingDate: "",
-    createdDate: "",
-  });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFertilizer((prevFertilizer) => ({
-      ...prevFertilizer,
-      [name]: value,
-    }));
-  };
+function FertilizerForm() {
+  const [name, setName] = useState('');
+  const [weight, setWeight] = useState('');
+  const [price, setPrice] = useState('');
+  const [manufacturingDate, setManufacturingDate] = useState('');
+  const [createdDate, setCreatedDate] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onFertilizerSubmit(fertilizer);
-    setFertilizer({
-      name: "",
-      weight: "",
-      price: "",
-      manufacturingDate: "",
-      createdDate: "",
-    });
-  };
+    try {
+      const fertilizer = { name, weight, price, manufacturingDate, createdDate };
+      const response = await axios.post('http://localhost:8070/fertilizers/create', fertilizer);
+      console.log(response);
+      alert(`${fertilizer.name} Added`);
+      setName("");
+      setWeight("");
+      setPrice("");
+      setManufacturingDate("");
+      setCreatedDate("");
+      
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="fertilizer-form">
-     
-     <h2 class="form-topic">ADD NEW FERTILIZER</h2>
-     
-      <div className="form-group">
-        <label htmlFor="name">Fertilizer Name:</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={fertilizer.name}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
+    <div className="fertilizer-form-container">
+      <div className="fertilizer-form">
+        <h1 className="form-topic">Add Fertilizer</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Name:</label>
+            <input type="text" id="name" value={name} onChange={(event) => setName(event.target.value)} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="weight">Weight:</label>
+            <input type="number" id="weight" value={weight} onChange={(event) => setWeight(event.target.value)} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="price">Price:</label>
+            <input type="number" id="price" value={price} onChange={(event) => setPrice(event.target.value)} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="manufacturingDate">Manufacturing Date:</label>
+            <DatePicker id="manufacturingDate" selected={manufacturingDate} onChange={(date) => setManufacturingDate(date)} dateFormat="dd/MM/yyyy" required/>
 
-
-      <div className="form-group">
-        <label htmlFor="weight">Fertilizer Weight:</label>
-        <input
-          type="text"
-          name="weight"
-          id="weight"
-          value={fertilizer.weight}
-          onChange={handleInputChange}
-          required
-        />
+          </div>
+          <div className="form-group">
+            <label htmlFor="createdDate">Created Date:</label>
+            <DatePicker id="createdDate" selected={createdDate} onChange={(date) => setCreatedDate(date)} dateFormat="dd/MM/yyyy" required/>
+          </div>
+          <button type="submit">Add</button>
+        </form>
       </div>
-      <div className="form-group">
-        <label htmlFor="price">Fertilizer Price:</label>
-        <input
-          type="text"
-          name="price"
-          id="price"
-          value={fertilizer.price}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="manufacturingDate">Manufacturing Date:</label>
-        <input
-          type="date"
-          name="manufacturingDate"
-          id="manufacturingDate"
-          value={fertilizer.manufacturingDate}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="createdDate">Created Date:</label>
-        <input
-          type="date"
-          name="createdDate"
-          id="createdDate"
-          value={fertilizer.createdDate}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <button type="submit">Add Fertilizer</button>
-    </form>
-  );
-};
+    </div>
+  )
+}
 
 export default FertilizerForm;

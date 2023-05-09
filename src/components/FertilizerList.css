@@ -1,4 +1,5 @@
 table {
+    margin-bottom: 100px;
     border-collapse: collapse;
     width: 100%;
     margin: 0 auto;
@@ -38,3 +39,6 @@ table {
     margin-bottom: 2rem;
   }
   
+  h1 {
+    text-align: center;
+  }
