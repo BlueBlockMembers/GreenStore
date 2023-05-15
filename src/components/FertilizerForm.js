@@ -9,19 +9,21 @@ function FertilizerForm() {
   const [name, setName] = useState('');
   const [weight, setWeight] = useState('');
   const [price, setPrice] = useState('');
+  const [type, setType] = useState('');
   const [manufacturingDate, setManufacturingDate] = useState('');
   const [createdDate, setCreatedDate] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const fertilizer = { name, weight, price, manufacturingDate, createdDate };
+      const fertilizer = { name, weight, price, type, manufacturingDate, createdDate };
       const response = await axios.post('http://localhost:8070/fertilizers/create', fertilizer);
       console.log(response);
       alert(`${fertilizer.name} Added`);
       setName("");
       setWeight("");
       setPrice("");
+      setType("");
       setManufacturingDate("");
       setCreatedDate("");
       
@@ -48,6 +50,11 @@ function FertilizerForm() {
             <label htmlFor="price">Price:</label>
             <input type="number" id="price" value={price} onChange={(event) => setPrice(event.target.value)} required />
           </div>
+          <div className="form-group">
+            <label htmlFor="price">Type :</label>
+            <input type="text" id="type" value={type} onChange={(event) => setType(event.target.value)} required />
+          </div>
+
           <div className="form-group">
             <label htmlFor="manufacturingDate">Manufacturing Date:</label>
             <DatePicker id="manufacturingDate" selected={manufacturingDate} onChange={(date) => setManufacturingDate(date)} dateFormat="dd/MM/yyyy" required/>

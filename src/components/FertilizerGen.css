@@ -1,0 +1,45 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px auto;
+    width: 80%;
+    background-color: #F0FFF0; /* Change background color */
+    border: 1px solid #008000; /* Add border */
+    padding: 20px;
+  }
+  
+  label {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 500px;
+    color: #008000; /* Change label color */
+  }
+  
+  select {
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #FFFFFF; /* Change select background color */
+    color: #008000; /* Change select color */
+  }
+  
+  button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: #008000; /* Change button background color */
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #006400; /* Change button hover color */
+  }
+  

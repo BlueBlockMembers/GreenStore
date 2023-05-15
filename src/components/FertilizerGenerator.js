@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import fertilizers from "../components/FertilizerGenTable";
-
+import "./FertilizerGen.css";
 
 const FertilizerGeneratorForm = () => {
   const [plantName, setPlantName] = useState("");
@@ -9,28 +10,44 @@ const FertilizerGeneratorForm = () => {
   const [fertilizerType, setFertilizerType] = useState("");
   const [fertilizerAmount, setFertilizerAmount] = useState("");
   const [fertilizerFrequency, setFertilizerFrequency] = useState("");
+  const [filteredFertilizers, setFilteredFertilizers] = useState([]);
 
+
+  const fetchFertilizers = async (type) => {
+    try {
+      const response = await axios.get(`http://localhost:8070/fertilizers`);
+      const filteredData = response.data.filter((fertilizer) =>
+        fertilizer.type.toLowerCase() === type.toLowerCase()
+      );
+      setFilteredFertilizers(filteredData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Check if plantName and growthStage are valid before accessing fertilizers object
     if (fertilizers[plantName] && fertilizers[plantName][growthStage]) {
       let { type, amount, frequency } = fertilizers[plantName][growthStage];
 
       if (time === "Morning") {
-        // Increase nitrogen by 25%
+        // Increase nitrogen in the morning because of the wet soil is good for absorption
         amount *= 1.25;
       } else if (time === "Afternoon") {
-        // Decrease nitrogen by 25%
+        // Decrease nitrogen
         amount *= 0.75;
       }
 
       setFertilizerType(type);
       setFertilizerAmount(amount);
       setFertilizerFrequency(frequency);
+
+      fetchFertilizers(type);
+
     } else {
-      // Handle case where plantName or growthStage is invalid
       setFertilizerType("");
       setFertilizerAmount("");
       setFertilizerFrequency("");
@@ -38,6 +55,8 @@ const FertilizerGeneratorForm = () => {
   };
 
   return (
+
+    <div>
     <form onSubmit={handleSubmit}>
       <h1 class="page-title">Generate Fertilizer</h1>
       <label>
@@ -90,12 +109,33 @@ const FertilizerGeneratorForm = () => {
             <td>{fertilizerFrequency}</td>
           </tr>
         </tbody>
-      </table>
-
-
-
+      </table> 
     </form>
-
+    <h2>Filtered Fertilizers</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Weight</th>
+          <th>Price</th>
+          <th>Type</th>
+          <th>Manufacturing Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredFertilizers.map((fertilizer) => (
+          <tr key={fertilizer._id}>
+            <td>{fertilizer.name}</td>
+            <td>{fertilizer.weight} KG</td>
+            <td>LKR {fertilizer.price}</td>
+            <td>{fertilizer.type}</td>
+            <td>{fertilizer.manufacturingDate}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    
+    </div>
 
 
 
