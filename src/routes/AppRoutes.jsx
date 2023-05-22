@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import SuperMarketPrice from "../pages/supermarket/SuperMarketPrice";
+import SuperMarketPricePage from "../pages/supermarket/SuperMarketPricePage.jsx";
 import Header from "../components/common/header/Header";
 
 function AppRoutes() {
@@ -8,7 +8,7 @@ function AppRoutes() {
 
         <Header/>
         <Routes>
-            <Route path="/" element={<SuperMarketPrice/>}/>
+            <Route path="/" element={<SuperMarketPricePage/>}/>
         </Routes>
 
     </BrowserRouter>);
