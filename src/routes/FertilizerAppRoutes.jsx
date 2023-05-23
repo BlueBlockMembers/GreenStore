@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import FertilizerForm from "./components/FertilizerForm";
-import ViewFertilizers from "./components/FertilizerList";
-import FertilizerGenerator from "./components/FertilizerGenerator";
-import CustomerRegistrationForm from "./components/CustomerRegistrationForm";
-import Navbar from "./components/Navbar";
-import CustomerLoginForm from './components/CustomerLoginForm';
-import CustomerList from "./components/CustomerList";
-import CustomerEditForm from "./components/CustomerEdit";
-import FertilizerEditForm from "./components/FertilizerEdit";
-import FertilizerView from './components/FertilizerView';
+import FertilizerForm from "../components/fertilizers/FertilizerForm";
+import ViewFertilizers from "../components/fertilizers/FertilizerList";
+import FertilizerGenerator from "../components/fertilizers/FertilizerGenerator";
+import FertilizerEditForm from "../components/fertilizers/FertilizerEdit";
+import CustomerRegistrationForm from "../components/customer/CustomerRegistrationForm";
+import Navbar from "../components/Navbar";
+import CustomerLoginForm from '../components/customer/CustomerLoginForm';
+import CustomerList from "../components/customer/CustomerList";
+import CustomerEditForm from "../components/customer/CustomerEdit";
+
 
 function App() {
 

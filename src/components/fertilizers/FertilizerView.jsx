@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './FertilizerList.css';
+import "../../styles/fertilizer/FertilizerList.css";
+
 import { Link } from 'react-router-dom';
 
 function FertilizerList() {

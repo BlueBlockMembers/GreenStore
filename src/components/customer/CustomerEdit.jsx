@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import "./CustomerRegistrationForm.css";
+import "../../styles/customer/CustomerRegistrationForm.css";
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 

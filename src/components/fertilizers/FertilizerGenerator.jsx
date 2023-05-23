@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import fertilizers from "../components/FertilizerGenTable";
-import "./FertilizerGen.css";
+import fertilizers from "./FertilizerGenTable";
+import "../../styles/fertilizer/FertilizerGen.css";
 
 const FertilizerGeneratorForm = () => {
   const [plantName, setPlantName] = useState("");
@@ -45,14 +45,16 @@ const FertilizerGeneratorForm = () => {
       setFertilizerAmount(amount);
       setFertilizerFrequency(frequency);
 
-      fetchFertilizers(type);
 
+      fetchFertilizers(type);
+  
     } else {
       setFertilizerType("");
       setFertilizerAmount("");
       setFertilizerFrequency("");
     }
   };
+
 
   return (
 
@@ -111,7 +113,7 @@ const FertilizerGeneratorForm = () => {
         </tbody>
       </table> 
     </form>
-    <h2>Filtered Fertilizers</h2>
+    <h2 style={{ textAlign: "center" }}>Find the most suitable fertilizer from the below </h2>
     <table>
       <thead>
         <tr>
@@ -120,18 +122,30 @@ const FertilizerGeneratorForm = () => {
           <th>Price</th>
           <th>Type</th>
           <th>Manufacturing Date</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        {filteredFertilizers.map((fertilizer) => (
-          <tr key={fertilizer._id}>
-            <td>{fertilizer.name}</td>
-            <td>{fertilizer.weight} KG</td>
-            <td>LKR {fertilizer.price}</td>
-            <td>{fertilizer.type}</td>
-            <td>{fertilizer.manufacturingDate}</td>
-          </tr>
-        ))}
+      {filteredFertilizers.length === 0 ? (
+      <tr>
+        <td colSpan="5" style={{ textAlign: "center" }}>No values to display</td>
+      </tr>
+    ) : (
+      filteredFertilizers.map((fertilizer) => (
+        <tr key={fertilizer._id}>
+          <td>{fertilizer.name}</td>
+          <td>{fertilizer.weight} KG</td>
+          <td>LKR {fertilizer.price}</td>
+          <td>{fertilizer.type}</td>
+          <td>{fertilizer.manufacturingDate}</td>
+          <td>
+            <button className="buy-button">Buy Now</button>
+            <button className="add-to-cart-button">Add to Cart</button>
+          </td>
+
+        </tr>
+      ))
+    )}
       </tbody>
     </table>
     
