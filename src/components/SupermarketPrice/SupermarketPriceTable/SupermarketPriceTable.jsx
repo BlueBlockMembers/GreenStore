@@ -1,18 +1,16 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
-import {getAllSupermarketPriceDetails} from "../../../store/reducers/supermarketPriceReducer.js";
+import {getAll} from "../../../store/actions/supermarketPriceActions";
 
-function SupermarketPriceTable(props) {
+function SupermarketPriceTable() {
     const supermarketPriceState = useSelector(state => state.supermarketPrice);
     const supermarketPriceDetails = useSelector(state => state.supermarketPrice.supermarketPrices);
+    const selectedD = useSelector(state => state.supermarketPrice.selectedSupermarketPrice);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllSupermarketPriceDetails());
+        dispatch(getAll());
     }, []);
-
-
-    console.log(supermarketPriceDetails);
 
     return (<div className="item">
         <div className="row">
@@ -30,9 +28,14 @@ function SupermarketPriceTable(props) {
                     </tr>
                     </thead>
                     <tbody>
-                    {supermarketPriceState.loading && <span>Loading...</span>}
+                    {supermarketPriceState.loading &&
+                        <tr>
+                            <td>Loading...</td>
+                        </tr>}
                     {!supermarketPriceState.loading && supermarketPriceState.error ?
-                        <div>Error: {supermarketPriceState.error}</div> : null}
+                        <tr>
+                            <td>Error: {supermarketPriceState.error}</td>
+                        </tr> : null}
                     {!supermarketPriceState.loading && supermarketPriceDetails.length ?
                         (
                             supermarketPriceState.supermarketPrices.map(superMarket =>
@@ -50,7 +53,9 @@ function SupermarketPriceTable(props) {
                                             {superMarket.toDayPrice}
                                         </td>
                                         <td>
-                                            <i className="fa-solid fa-pen me-3 text-primary"></i>
+                                            <i className="fa-solid fa-pen me-3 text-primary" onClick={() => {
+
+                                            }}></i>
                                             <i className="fa-solid fa-trash-can d-inline me-2 text-danger"></i>
                                         </td>
                                     </tr>
