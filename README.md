@@ -3,7 +3,7 @@
 ## Green Store – Online Agricultural Web Store 
 
 <p align="center">
-  <img src="https://github.com/BlueBlockMembers/GreenStore/assets/88307797/aa412986-fb92-4513-b790-742a8c42708e"> </img>.
+  <img src="https://github.com/BlueBlockMembers/GreenStore/assets/88307797/aa412986-fb92-4513-b790-742a8c42708e"> </img>
 </p>
 
 ### Description about the project
