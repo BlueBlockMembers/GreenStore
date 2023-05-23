@@ -1,6 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux'
+import {getAllSupermarketPriceDetails} from "../../../store/reducers/supermarketPriceReducer.js";
 
 function SupermarketPriceTable(props) {
+
+    const supermarketPriceDetails = useSelector(state => state.supermarketPrice.supermarketPrices);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllSupermarketPriceDetails());
+    }, []);
+
+
+    console.log(supermarketPriceDetails);
+
     return (
         <div className="item">
             <div className="row">
