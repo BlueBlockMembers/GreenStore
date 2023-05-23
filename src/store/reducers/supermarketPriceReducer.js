@@ -1,52 +1,102 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import {add, deleteDetails, search, update} from "../actions/supermarketPriceActions.js";
-import axios from "axios";
+import {createSlice} from '@reduxjs/toolkit';
+import {add, deleteDetails, getAll, search, update} from '../actions/supermarketPriceActions.js';
 
 const initialState = {
-    supermarketPrices: [{
-        superMarketPriceID: "1", itemId: "1", itemName: "Item 1", yesterDayPrice: "0.00", toDayPrice: "0.00",
-    }], supermarketPriceID: "", loading: false, error: ''
-}
+    supermarketPrices: [],
+    supermarketPriceID: '',
+    loading: false,
+    error: '',
+    selectedSupermarketPrice: {},
+};
 
-export const getAllSupermarketPriceDetails = createAsyncThunk('supermarketPrice/getAllSupermarketPriceDetails', () => {
-    return axios.get('http://localhost:8000/api/marketPlace').then((response) => {
-        return response.data.data;
-    });
-})
-
-export const SupermarketPriceSlice = createSlice({
-    name: "supermarketPrice",
+export const supermarketPriceSlice = createSlice({
+    name: 'supermarketPrice',
     initialState,
-    reducers: {
-        addNewSupermarketPriceDetails: add,
-        updateNewSupermarketPriceDetails: update,
-        deleteSupermarketPriceDetails: deleteDetails,
-        getSupermarketPriceDetailsByID: search
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getAllSupermarketPriceDetails.pending, (state, action) => {
+
+        //add supermarketPrice
+        builder.addCase(add.pending, (state) => {
             state.loading = true;
         })
 
-        builder.addCase(getAllSupermarketPriceDetails.fulfilled, (state, action) => {
+        builder.addCase(add.fulfilled, (state, action) => {
             state.loading = false;
             state.supermarketPrices = action.payload;
             state.error = '';
         })
 
-        builder.addCase(getAllSupermarketPriceDetails.rejected, (state, action) => {
+        builder.addCase(add.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+        })
+
+        //update supermarketPrice
+        builder.addCase(update.pending, (state) => {
+            state.loading = true;
+        })
+
+        builder.addCase(update.fulfilled, (state, action) => {
+            state.loading = false;
+            state.supermarketPrices = action.payload;
+            state.error = '';
+        })
+
+        builder.addCase(update.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+        })
+
+        //delete supermarketPrice
+        builder.addCase(deleteDetails.pending, (state) => {
+            state.loading = true;
+        })
+
+        builder.addCase(deleteDetails.fulfilled, (state, action) => {
+            state.loading = false;
+            state.supermarketPrices = action.payload;
+            state.error = '';
+        })
+
+        builder.addCase(deleteDetails.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+        })
+
+        //get all by id supermarketPrice
+        builder.addCase(search.pending, (state) => {
+            state.loading = true;
+        })
+
+        builder.addCase(search.fulfilled, (state, action) => {
+            state.loading = false;
+            state.selectedSupermarketPrice = action.payload;
+            state.error = '';
+        })
+
+        builder.addCase(search.rejected, (state, action) => {
+            state.loading = false;
+            state.selectedSupermarketPrice = {};
+            state.error = action.error.message;
+        });
+
+        //get all supermarketPrice
+        builder.addCase(getAll.pending, (state, action) => {
+            state.loading = true;
+        })
+
+        builder.addCase(getAll.fulfilled, (state, action) => {
+            state.loading = false;
+            state.supermarketPrices = action.payload;
+            state.error = '';
+        })
+
+        builder.addCase(getAll.rejected, (state, action) => {
             state.loading = false;
             state.supermarketPrices = [];
             state.error = action.error.message;
         })
-    }
-})
+    },
+});
 
-export const {
-    addNewSupermarketPriceDetails,
-    updateNewSupermarketPriceDetails,
-    deleteSupermarketPriceDetails,
-    getSupermarketPriceDetailsByID,
-} = SupermarketPriceSlice.actions
-export default SupermarketPriceSlice.reducer;
-
+export default supermarketPriceSlice.reducer;
