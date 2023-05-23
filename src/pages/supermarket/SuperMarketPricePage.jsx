@@ -6,9 +6,10 @@ import SupermarketPriceTable from "../../components/SupermarketPrice/Supermarket
 import CheapestItemList from "../../components/SupermarketPrice/CheapestItemList/CheapestItemList";
 import PageHeader from "../../components/common/pageHeader/PageHeader.jsx";
 
-function SuperMarketPricePage(props) {
+function SuperMarketPricePage() {
     return (<AdminLayout class="wrapper">
         <div className="main_container">
+            {/*page header*/}
             <PageHeader title="Super market price Management"/>
             {/*collapse table*/}
             <CheapestItemList/>
