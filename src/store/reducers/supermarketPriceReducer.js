@@ -64,9 +64,9 @@ export const supermarketPriceSlice = createSlice({
         })
 
         //get all by id supermarketPrice
-        builder.addCase(search.pending, (state) => {
-            state.loading = true;
-        })
+        // builder.addCase(search.pending, (state) => {
+        //     state.loading = true;
+        // })
 
         builder.addCase(search.fulfilled, (state, action) => {
             state.loading = false;
@@ -74,11 +74,11 @@ export const supermarketPriceSlice = createSlice({
             state.error = '';
         })
 
-        builder.addCase(search.rejected, (state, action) => {
-            state.loading = false;
-            state.selectedSupermarketPrice = {};
-            state.error = action.error.message;
-        });
+        // builder.addCase(search.rejected, (state, action) => {
+        //     state.loading = false;
+        //     state.selectedSupermarketPrice = {};
+        //     state.error = action.error.message;
+        // });
 
         //get all supermarketPrice
         builder.addCase(getAll.pending, (state, action) => {

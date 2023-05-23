@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
-import {getAll} from "../../../store/actions/supermarketPriceActions";
+import {getAll, search} from "../../../store/actions/supermarketPriceActions";
 
 function SupermarketPriceTable() {
     const supermarketPriceState = useSelector(state => state.supermarketPrice);
-    const supermarketPriceDetails = useSelector(state => state.supermarketPrice.supermarketPrices);
-    const selectedD = useSelector(state => state.supermarketPrice.selectedSupermarketPrice);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -36,7 +34,7 @@ function SupermarketPriceTable() {
                         <tr>
                             <td>Error: {supermarketPriceState.error}</td>
                         </tr> : null}
-                    {!supermarketPriceState.loading && supermarketPriceDetails.length ?
+                    {!supermarketPriceState.loading && supermarketPriceState.supermarketPrices.length ?
                         (
                             supermarketPriceState.supermarketPrices.map(superMarket =>
                                 (
@@ -53,8 +51,9 @@ function SupermarketPriceTable() {
                                             {superMarket.toDayPrice}
                                         </td>
                                         <td>
-                                            <i className="fa-solid fa-pen me-3 text-primary" onClick={() => {
-
+                                            <i className="fa-solid fa-pen me-3 text-primary" onClick={(e) => {
+                                                e.preventDefault();
+                                                dispatch(search(superMarket.superMarketPriceID));
                                             }}></i>
                                             <i className="fa-solid fa-trash-can d-inline me-2 text-danger"></i>
                                         </td>
