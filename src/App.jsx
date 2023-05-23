@@ -1,11 +1,11 @@
-import FertilizerAppRoutes from "./routes/FertilizerAppRoutes";
+import AppRoutes from "./routes/AppRoutes";
 import './App.css';
 
 function App() {
 
   return (
     <div>
-        <FertilizerAppRoutes/>
+        <AppRoutes/>
     </div>
   );
 }
