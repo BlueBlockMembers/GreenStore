@@ -1,33 +1,88 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getAll, update} from "../../../store/actions/supermarketPriceActions.js";
+import {add, getAll, update} from "../../../store/actions/supermarketPriceActions.js";
 import Swal from 'sweetalert2'
 
 function SupermarketPriceForm() {
     const supermarketPriceState = useSelector(state => state.supermarketPrice);
     const dispatch = useDispatch();
-    const [id, setId] = useState()
-    const [superMarketPriceID, setSuperMarketPriceID] = useState()
-    const [itemId, setItemId] = useState()
-    const [itemName, setItemName] = useState()
-    const [yesterdayPrice, setYesterdayPrice] = useState()
-    const [todayPrice, setTodayPrice] = useState()
+    const [id, setId] = useState("")
+    const [superMarketPriceID, setSuperMarketPriceID] = useState("")
+    const [ItemId, setItemId] = useState("645b423fc9af1470fb4712fe")
+    const [itemName, setItemName] = useState("")
+    const [yesterdayPrice, setYesterdayPrice] = useState("")
+    const [todayPrice, setTodayPrice] = useState("")
 
     useEffect(() => {
-        setId(supermarketPriceState.selectedSupermarketPrice._id)
-        setSuperMarketPriceID(supermarketPriceState.selectedSupermarketPrice.superMarketPriceID)
-        setItemId(supermarketPriceState.selectedSupermarketPrice.itemId)
-        setItemName(supermarketPriceState.selectedSupermarketPrice.itemName)
-        setYesterdayPrice(supermarketPriceState.selectedSupermarketPrice.yesterDayPrice)
-        setTodayPrice(supermarketPriceState.selectedSupermarketPrice.toDayPrice)
+        if (supermarketPriceState.selectedSupermarketPrice._id) {
+            setId(supermarketPriceState.selectedSupermarketPrice._id)
+            setSuperMarketPriceID(supermarketPriceState.selectedSupermarketPrice.superMarketPriceID)
+            setItemId(supermarketPriceState.selectedSupermarketPrice.itemId)
+            setItemName(supermarketPriceState.selectedSupermarketPrice.itemName)
+            setYesterdayPrice(supermarketPriceState.selectedSupermarketPrice.yesterDayPrice)
+            setTodayPrice(supermarketPriceState.selectedSupermarketPrice.toDayPrice)
+        } else {
+            setId(supermarketPriceState._id)
+            setSuperMarketPriceID(supermarketPriceState.superMarketPriceID)
+            setItemId(supermarketPriceState.itemId)
+            setItemName(supermarketPriceState.itemName)
+            setYesterdayPrice(supermarketPriceState.yesterDayPrice)
+            setTodayPrice(supermarketPriceState.toDayPrice)
+        }
     }, [supermarketPriceState.selectedSupermarketPrice])
+
+    const addSupermarketPrice = async () => {
+        console.log("addSupermarketPrice", ItemId)
+        const payload = {
+            itemID: ItemId,
+            itemName: itemName,
+            yesterDayPrice: yesterdayPrice,
+            toDayPrice: todayPrice,
+        };
+
+        await dispatch(add(payload)).then((res) => {
+            if (!supermarketPriceState.error) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: `${res.payload.message}`,
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+                clearForm();
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: `${supermarketPriceState.error}`,
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+            }
+        }).catch((err) => {
+            Swal.fire({
+                title: 'Error!',
+                text: `${err}`,
+                icon: 'error',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+            });
+        });
+        dispatch(getAll());
+    };
 
 
     const handleUpdateSubmit = async () => {
         const payload = {
             _id: id,
             superMarketPriceID: superMarketPriceID,
-            itemId: itemId,
+            itemID: ItemId,
             itemName: itemName,
             yesterDayPrice: yesterdayPrice,
             toDayPrice: todayPrice,
@@ -114,11 +169,11 @@ function SupermarketPriceForm() {
                         <div className="col">
                             <select name="superMarketPriceID" id="itemName"
                                     className="form-select" aria-label="role"
-                                    value={itemName}
+                                    value={ItemId}
                                     onChange={(e) => {
-                                        setItemName(e.target.value)
+                                        setItemId(e.target.value)
                                     }}>
-                                <option selected disabled value="0">Item</option>
+                                <option selected disabled value="645b423fc9af1470fb4712fe">Item</option>
 
                             </select>
                             <small
@@ -164,7 +219,10 @@ function SupermarketPriceForm() {
                     </div>
                     <div className="row mt-4">
                         <div className="d-flex justify-content-around align-items-center">
-                            <button type="submit" className="btn btnAdd ">Register</button>
+                            <button type="button" className="btn btnAdd" onClick={() => {
+                                addSupermarketPrice()
+                            }}>Register
+                            </button>
                             <button type="button" className="btn btnUpdate btn-secondary" onClick={() => {
                                 handleUpdateSubmit()
                             }}>Update
