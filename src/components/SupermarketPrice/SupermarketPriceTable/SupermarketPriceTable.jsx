@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
-import {getAll, search} from "../../../store/actions/supermarketPriceActions";
+import {deleteDetails, getAll, search} from "../../../store/actions/supermarketPriceActions";
+import Swal from "sweetalert2";
 
 function SupermarketPriceTable() {
     const supermarketPriceState = useSelector(state => state.supermarketPrice);
@@ -9,6 +10,44 @@ function SupermarketPriceTable() {
     useEffect(() => {
         dispatch(getAll());
     }, []);
+
+
+    const deleteSupermarketPrice = async (id) => {
+        await dispatch(deleteDetails(id)).then((res) => {
+            if (!supermarketPriceState.error) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: `${res.payload.message}`,
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: `${supermarketPriceState.error}`,
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+            }
+        }).catch((err) => {
+            Swal.fire({
+                title: 'Error!',
+                text: `${supermarketPriceState.error}`,
+                icon: 'error',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+            });
+        });
+    }
+
 
     return (<div className="item">
         <div className="row">
@@ -55,7 +94,12 @@ function SupermarketPriceTable() {
                                                 e.preventDefault();
                                                 dispatch(search(superMarket.superMarketPriceID));
                                             }}></i>
-                                            <i className="fa-solid fa-trash-can d-inline me-2 text-danger"></i>
+                                            <i className="fa-solid fa-trash-can d-inline me-2 text-danger"
+                                               onClick={(e) => {
+                                                   e.preventDefault();
+                                                   deleteSupermarketPrice(superMarket.superMarketPriceID);
+                                               }}
+                                            ></i>
                                         </td>
                                     </tr>
                                 )
