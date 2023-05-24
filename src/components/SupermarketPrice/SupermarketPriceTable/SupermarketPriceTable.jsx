@@ -46,6 +46,7 @@ function SupermarketPriceTable() {
                 timer: 3000,
             });
         });
+        dispatch(getAll());
     }
 
 
