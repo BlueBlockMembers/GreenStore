@@ -9,7 +9,7 @@ let initialState = {
     selectedSupermarketPrice: {},
     _id: "",
     superMarketPriceID: "",
-    itemId: "",
+    itemId: "645b423fc9af1470fb4712fe",
     itemName: "",
     yesterDayPrice: "",
     toDayPrice: "",
