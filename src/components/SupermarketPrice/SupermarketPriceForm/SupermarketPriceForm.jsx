@@ -75,8 +75,8 @@ function SupermarketPriceForm() {
     const clearForm = () => {
         setId('')
         setSuperMarketPriceID('')
-        setItemId('0')
-        setItemName('0')
+        setItemId('')
+        setItemName('')
         setYesterdayPrice('')
         setTodayPrice('')
         document.getElementById("superMarketPriceForm").reset();
