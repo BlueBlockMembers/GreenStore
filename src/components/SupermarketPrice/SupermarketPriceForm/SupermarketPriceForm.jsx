@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getAll, update} from "../../../store/actions/supermarketPriceActions.js";
+import Swal from 'sweetalert2'
 
 function SupermarketPriceForm() {
     const supermarketPriceState = useSelector(state => state.supermarketPrice);
@@ -33,12 +34,39 @@ function SupermarketPriceForm() {
         };
 
         if (supermarketPriceState.selectedSupermarketPrice.superMarketPriceID) {
-            // Dispatch the update action here
-            // Dispatch the update action here
-            await dispatch(update(payload)).then(() => {
+            await dispatch(update(payload)).then((res) => {
                 if (!supermarketPriceState.error) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: `${res.payload.message}`,
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
                     clearForm();
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `${supermarketPriceState.error}`,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
                 }
+            }).catch((err) => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: `${err}`,
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
             });
             dispatch(getAll());
         }

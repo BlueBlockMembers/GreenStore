@@ -2,8 +2,8 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const add = createAsyncThunk('supermarketPrice/add', async (payload) => {
-    const response = await axios.post('http://localhost:8000/api/marketPlace', payload);
-    return response.data.data;
+    const response = await axios.post('http://localhost:8000/api/marketPlace/add', payload);
+    return response.data;
 });
 
 export const update = createAsyncThunk('supermarketPrice/update', async (payload) => {
