@@ -7,8 +7,8 @@ export const add = createAsyncThunk('supermarketPrice/add', async (payload) => {
 });
 
 export const update = createAsyncThunk('supermarketPrice/update', async (payload) => {
-    const response = await axios.put(`http://localhost:8000/api/marketPlace/${payload.id}`, payload);
-    return response.data.data;
+    const response = await axios.put(`http://localhost:8000/api/marketPlace/update/${payload.superMarketPriceID}`, payload);
+    return response.data;
 });
 
 export const deleteDetails = createAsyncThunk('supermarketPrice/deleteDetails', async (payload) => {
