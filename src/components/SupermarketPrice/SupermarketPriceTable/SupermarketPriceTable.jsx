@@ -1,11 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import {deleteDetails, getAll, search} from "../../../store/actions/supermarketPriceActions";
 import Swal from "sweetalert2";
+import {PuffLoader} from "react-spinners";
+
+const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "#116416",
+};
 
 function SupermarketPriceTable() {
     const supermarketPriceState = useSelector(state => state.supermarketPrice);
     const dispatch = useDispatch();
+    let [color, setColor] = useState("#116416");
 
     useEffect(() => {
         dispatch(getAll());
@@ -68,7 +76,15 @@ function SupermarketPriceTable() {
                     <tbody>
                     {supermarketPriceState.loading &&
                         <tr>
-                            <td>Loading...</td>
+                            <td colSpan="6" className="text-center">
+                                <PuffLoader
+                                    color={color}
+                                    loading={supermarketPriceState.loading}
+                                    cssOverride={override}
+                                    size={150}
+                                    aria-label="Loading Spinner"
+                                    data-testid="loader"
+                                /></td>
                         </tr>}
                     {!supermarketPriceState.loading && supermarketPriceState.error ?
                         <tr>
