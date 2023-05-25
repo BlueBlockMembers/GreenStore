@@ -54,7 +54,7 @@ const ToolAndSeedList = () => {
           timer: 3000,
         });
       });
-    dispatch(getAll());
+    dispatch(getSeed());
   };
 
   const deleteTools = async (id) => {
@@ -224,12 +224,15 @@ const ToolAndSeedList = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                               }}
+                              style={{ cursor: "pointer" }}
                             ></i>
                             <i
                               className="fa-solid fa-trash-can d-inline me-2 text-danger"
                               onClick={(e) => {
                                 e.preventDefault();
+                                deleteSeeds(state.id);
                               }}
+                              style={{ cursor: "pointer" }}
                             ></i>
                           </td>
                         </tr>
