@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {add, getAll, update} from "../../../store/actions/supermarketPriceActions.js";
 import Swal from 'sweetalert2'
+import validateSupermarketPrice from "../../../validations/supermarketPrice.validation.js";
+
 
 function SupermarketPriceForm() {
     const supermarketPriceState = useSelector(state => state.supermarketPrice);
@@ -40,40 +42,54 @@ function SupermarketPriceForm() {
             toDayPrice: todayPrice,
         };
 
-        await dispatch(add(payload)).then((res) => {
-            if (!supermarketPriceState.error) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: `${res.payload.message}`,
-                    icon: 'success',
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                });
-                clearForm();
-            } else {
+        const {errors, isInvalid} = validateSupermarketPrice(payload);
+
+        if (isInvalid) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                icon: 'error',
+                title: 'Please enter your details',
+            });
+        } else {
+            await dispatch(add(payload)).then((res) => {
+                if (!supermarketPriceState.error) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: `${res.payload.message}`,
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                    clearForm();
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `${supermarketPriceState.error}`,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                }
+            }).catch((err) => {
                 Swal.fire({
                     title: 'Error!',
-                    text: `${supermarketPriceState.error}`,
+                    text: `${err}`,
                     icon: 'error',
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
                     timer: 3000,
                 });
-            }
-        }).catch((err) => {
-            Swal.fire({
-                title: 'Error!',
-                text: `${err}`,
-                icon: 'error',
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
             });
-        });
+        }
+
         dispatch(getAll());
     };
 
