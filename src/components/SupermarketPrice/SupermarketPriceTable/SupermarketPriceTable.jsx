@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from 'react-redux'
 import {deleteDetails, getAll, search} from "../../../store/actions/supermarketPriceActions";
 import Swal from "sweetalert2";
 import {PuffLoader} from "react-spinners";
+import {getAllProducts} from "../../../store/actions/productsActions.js";
+
 
 const override = {
     display: "block",
@@ -12,11 +14,13 @@ const override = {
 
 function SupermarketPriceTable() {
     const supermarketPriceState = useSelector(state => state.supermarketPrice);
+    const productState = useSelector(state => state.products);
     const dispatch = useDispatch();
     let [color, setColor] = useState("#116416");
 
     useEffect(() => {
         dispatch(getAll());
+        dispatch(getAllProducts());
     }, []);
 
 
@@ -92,13 +96,23 @@ function SupermarketPriceTable() {
                         </tr> : null}
                     {!supermarketPriceState.loading && supermarketPriceState.supermarketPrices.length ?
                         (
-                            supermarketPriceState.supermarketPrices.map(superMarket =>
+                            supermarketPriceState.supermarketPrices.map((superMarket, index) =>
                                 (
                                     <tr itemScope="row" id={superMarket._id} key={superMarket._id}>
                                         <td>
                                             {superMarket.superMarketPriceID}
                                         </td>
-                                        <td>{superMarket.itemName}</td>
+                                        <td>
+                                            {
+                                                productState.productList.map((product, index) => {
+                                                    if (product._id === superMarket.itemId) {
+                                                        return (
+                                                            <img src={product.image} alt="image" width="50px"/>
+                                                        )
+                                                    }
+                                                })
+                                            }
+                                        </td>
                                         <td>{superMarket.itemName}</td>
                                         <td>
                                             {superMarket.yesterDayPrice}
@@ -107,11 +121,13 @@ function SupermarketPriceTable() {
                                             {superMarket.toDayPrice}
                                         </td>
                                         <td>
-                                            <i className="fa-solid fa-pen me-3 text-primary" onClick={(e) => {
+                                            <i style={{'cursor': 'pointer'}}
+                                               className="fa-solid fa-pen me-3 text-primary" onClick={(e) => {
                                                 e.preventDefault();
                                                 dispatch(search(superMarket.superMarketPriceID));
                                             }}></i>
-                                            <i className="fa-solid fa-trash-can d-inline me-2 text-danger"
+                                            <i style={{'cursor': 'pointer'}}
+                                               className="fa-solid fa-trash-can d-inline me-2 text-danger"
                                                onClick={(e) => {
                                                    e.preventDefault();
                                                    deleteSupermarketPrice(superMarket.superMarketPriceID);
