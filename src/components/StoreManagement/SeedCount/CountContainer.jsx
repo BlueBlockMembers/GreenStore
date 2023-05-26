@@ -16,8 +16,13 @@ const CountContainer = ({
   const seedState = useSelector((state) => state.Seeds);
   const toolState = useSelector((state) => state.Tools);
 
+  const [isModelOpen, setIsModelOpen] = useState(false);
+
   const [toolCount, setToolCount] = useState();
   const [seedCount, setSeedCount] = useState();
+
+  const [item, setItem] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
