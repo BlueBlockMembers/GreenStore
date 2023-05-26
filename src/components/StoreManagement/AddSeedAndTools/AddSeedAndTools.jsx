@@ -2,8 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import validateToolsAndSeeds from "../../../validations/toolsAndSeeds.validation";
 import Swal from "sweetalert2";
-import { addSeed, getSeed } from "../../../store/actions/SeedActions";
-import { addTool, getTool } from "../../../store/actions/ToolActions";
+import {
+  addSeed,
+  getSeed,
+  updateSeed,
+} from "../../../store/actions/SeedActions";
+import {
+  addTool,
+  getTool,
+  updateTool,
+} from "../../../store/actions/ToolActions";
 import image1 from "../../../assets/image.png";
 
 const AddSeedAndTools = ({ item, isEdit, setIsModelOpen }) => {
@@ -15,6 +23,29 @@ const AddSeedAndTools = ({ item, isEdit, setIsModelOpen }) => {
   const [image, setImage] = useState("");
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
+  const [_id, set_Id] = useState("");
+
+  item === "Seed"
+    ? useEffect(() => {
+        if (seedState.selectedSeedList) {
+          setId(seedState.selectedSeedList?.id);
+          setPrice(seedState.selectedSeedList?.price);
+          setImage(seedState.selectedSeedList?.image);
+          setItemName(seedState.selectedSeedList?.name);
+          setDescription(seedState.selectedSeedList.description);
+          set_Id(seedState.selectedSeedList?._id);
+        }
+      }, [seedState.selectedSeedList])
+    : useEffect(() => {
+        if (toolState.selectedToolList) {
+          setId(toolState.selectedToolList?.id);
+          setPrice(toolState.selectedToolList?.price);
+          setImage(toolState.selectedToolList?.image);
+          setItemName(toolState.selectedToolList?.name);
+          setDescription(toolState.selectedToolList.description);
+          set_Id(toolState.selectedToolList?._id);
+        }
+      }, [toolState.selectedToolList]);
 
   const addToolsAndSeeds = async () => {
     const payload = {
@@ -75,6 +106,62 @@ const AddSeedAndTools = ({ item, isEdit, setIsModelOpen }) => {
     }
 
     dispatch(item === "Seed" ? getSeed() : getTool());
+  };
+
+  const handleUpdateSubmit = async () => {
+    const payload = {
+      _id: _id,
+      id: id,
+      name: itemName,
+      price: price,
+      description: description,
+      image: image,
+    };
+
+    if (
+      item === "Seed"
+        ? seedState.selectedSeedList.id
+        : toolState.selectedToolList.id
+    ) {
+      await dispatch(
+        item === "Seed" ? updateSeed(payload) : updateTool(payload)
+      )
+        .then((res) => {
+          if (item === "Seed" ? !seedState.error : !toolState.error) {
+            Swal.fire({
+              title: "Success!",
+              text: `${res.payload.message}`,
+              icon: "success",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          } else {
+            Swal.fire({
+              title: "Error!",
+              text: `${item === "Seed" ? seedState.error : toolState.error}`,
+              icon: "error",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: "Error!",
+            text: `${err}`,
+            icon: "error",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        });
+      dispatch(item === "Seed" ? getSeed() : getTool());
+    }
   };
 
   const convertToBase64 = (e) => {
@@ -150,7 +237,9 @@ const AddSeedAndTools = ({ item, isEdit, setIsModelOpen }) => {
       </div>
       <div className="col-lg-12 mt-4 mx-4">
         <div className="item">
-          <h5 className="modal-title fw-bold">Add {item}</h5>
+          <h5 className="modal-title fw-bold">
+            {isEdit ? "Update" : "Add"} {item}
+          </h5>
           <div className="row">
             <div className="offset-6 col-lg-6 col-md-12 col-sm-12">
               <div className="row"></div>
@@ -235,7 +324,7 @@ const AddSeedAndTools = ({ item, isEdit, setIsModelOpen }) => {
                   type="button"
                   className="btn btnAdd"
                   onClick={() => {
-                    addToolsAndSeeds();
+                    isEdit ? handleUpdateSubmit() : addToolsAndSeeds();
                   }}
                 >
                   {!isEdit ? "Submit" : "Update"}

@@ -30,3 +30,10 @@ export const getTool = createAsyncThunk("tool/getAll", async () => {
   const response = await axios.get("http://localhost:8000/api/tools/getTool");
   return response.data.data;
 });
+
+export const getOneTool = createAsyncThunk("tool/getOne", async (payload) => {
+  const response = await axios.get(
+    `http://localhost:8000/api/tools/getOneTool/${payload}`
+  );
+  return response.data.data;
+});

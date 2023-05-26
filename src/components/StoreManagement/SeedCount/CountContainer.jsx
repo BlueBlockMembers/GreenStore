@@ -5,17 +5,19 @@ import { getTool } from "../../../store/actions/ToolActions";
 import { getSeed } from "../../../store/actions/SeedActions";
 import AddSeedAndTools from "../AddSeedAndTools/AddSeedAndTools";
 
-const CountContainer = () => {
+const CountContainer = ({
+  isEdit,
+  setIsEdit,
+  isModelOpen,
+  setIsModelOpen,
+  item,
+  setItem,
+}) => {
   const seedState = useSelector((state) => state.Seeds);
   const toolState = useSelector((state) => state.Tools);
 
-  const [isModelOpen, setIsModelOpen] = useState(false);
-
   const [toolCount, setToolCount] = useState();
   const [seedCount, setSeedCount] = useState();
-
-  const [item, setItem] = useState("");
-  const [isEdit, setIsEdit] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -78,6 +80,7 @@ const CountContainer = () => {
             isEdit={isEdit}
             item={item}
             setIsModelOpen={setIsModelOpen}
+            setIsEdit={setIsEdit}
           />
         </div>
       )}
