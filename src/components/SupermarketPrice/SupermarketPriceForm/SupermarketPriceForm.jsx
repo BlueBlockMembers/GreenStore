@@ -36,7 +36,7 @@ function SupermarketPriceForm() {
             setYesterdayPrice(supermarketPriceState.yesterDayPrice)
             setTodayPrice(supermarketPriceState.toDayPrice)
         }
-        loadAlProducts();
+        loadAllProducts();
     }, [supermarketPriceState.selectedSupermarketPrice])
 
     const addSupermarketPrice = async () => {
@@ -177,7 +177,7 @@ function SupermarketPriceForm() {
         document.getElementById("superMarketPriceForm").reset();
     }
 
-    const loadAlProducts = () => {
+    const loadAllProducts = () => {
         dispatch(getAllProducts()).then((res) => {
             setProductList(res.payload);
         })
