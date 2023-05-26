@@ -9,6 +9,7 @@ import Navbar from "../components/Navbar";
 import CustomerLoginForm from '../components/customer/CustomerLoginForm';
 import CustomerList from "../components/customer/CustomerList";
 import CustomerEditForm from "../components/customer/CustomerEdit";
+import CartPage from "../components/cart/CartPage";
 
 
 function App() {
@@ -16,9 +17,6 @@ function App() {
   return (
     <Router>
     <div>
-    <Routes>
-      <Route path="/" element={<Navbar />} />
-    </Routes>
     <Routes>
       <Route path="/view" element={<Navbar />} />
     </Routes>
@@ -29,19 +27,13 @@ function App() {
       <Route path="/report" element={<Navbar />} />
     </Routes>
     <Routes>
-      <Route path="/login" element={<Navbar />} />
-    </Routes>
-    <Routes>
-      <Route path="/register" element={<Navbar />} />
-    </Routes>
-    <Routes>
       <Route path="/seeds" element={<Navbar />} />
     </Routes>
     <Routes>
       <Route path="/vegetables" element={<Navbar />} />
     </Routes>
     <Routes>
-      <Route path="/login" element={<CustomerLoginForm />} />
+      <Route path="/" element={<CustomerLoginForm />} />
     </Routes>
     <Routes>
       <Route path="/register" element={<CustomerRegistrationForm />} />
@@ -63,6 +55,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/view" element={<ViewFertilizers />} />
+      </Routes>
+      <Routes>
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
 
     </div>

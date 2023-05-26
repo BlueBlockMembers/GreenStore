@@ -24,6 +24,7 @@ export default function CustomerEditForm() {
         setCity(userData.city);
         setState(userData.state);
         setZipCode(userData.zipCode);
+        console.log(userData);
       } catch (error) {
         console.log(error);
       }

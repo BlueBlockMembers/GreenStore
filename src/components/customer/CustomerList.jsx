@@ -9,6 +9,7 @@ function CustomerList() {
     axios.get('http://localhost:8070/customers/')
       .then(response => {
         setCustomers(response.data);
+        console.log(customers);
       })
       .catch(error => {
         console.log(error);
