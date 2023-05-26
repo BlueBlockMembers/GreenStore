@@ -1,8 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getProductIdAndName} from './../actions/productsActions'
+import {getAllProducts} from './../actions/productsActions'
 
 let initialState = {
-    products: [],
+    productList: [],
     productNameList: [],
     productId: '',
     loading: false,
@@ -19,18 +19,21 @@ let initialState = {
 
 export const productSlice = createSlice({
     name: 'products', initialState, reducers: {}, extraReducers: (builder) => {
-        builder.addCase(getProductIdAndName.pending, (state) => {
+        builder.addCase(getAllProducts.pending, (state) => {
             state.loading = true;
         })
-        builder.addCase(getProductIdAndName.fulfilled, (state, action) => {
+        builder.addCase(getAllProducts.fulfilled, (state, action) => {
             state.loading = false;
-            state.productNameList = action.payload;
+            state.productList = action.payload;
             state.error = '';
         })
-        builder.addCase(getProductIdAndName.rejected, (state, action) => {
+        builder.addCase(getAllProducts.rejected, (state, action) => {
             state.loading = false;
-            state.productNameList = [];
+            state.productList = [];
             state.error = action.error.message;
         })
     }
 });
+
+
+export default productSlice.reducer;
