@@ -137,34 +137,49 @@ const ToolAndSeedList = () => {
                       <td>Error: {toolState?.error}</td>
                     </tr>
                   ) : null}
-                  {!toolState?.loading && toolState.tools?.length
-                    ? toolState.tools.map((state) => (
-                        <tr itemScope="row" id={state._id} key={state._id}>
-                          <td>{state.id}</td>
-                          <td>{state.image}</td>
-                          <td>{state.name}</td>
-                          <td>{state.description}</td>
-                          <td>{state.price}</td>
-                          <td>
-                            <i
-                              className="fa-solid fa-pen me-3 text-primary"
-                              onClick={(e) => {
-                                e.preventDefault();
-                              }}
-                              style={{ cursor: "pointer" }}
-                            ></i>
-                            <i
-                              className="fa-solid fa-trash-can d-inline me-2 text-danger"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                deleteTools(state.id);
-                              }}
-                              style={{ cursor: "pointer" }}
-                            ></i>
-                          </td>
-                        </tr>
-                      ))
-                    : null}
+                  {!toolState?.loading && toolState.tools?.length ? (
+                    toolState.tools.map((state) => (
+                      <tr itemScope="row" id={state._id} key={state._id}>
+                        <td>{state.id}</td>
+                        <td>
+                          <img
+                            src={state.image}
+                            style={{
+                              height: "50px",
+                              width: "50px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </td>
+                        <td>{state.name}</td>
+                        <td>{state.description}</td>
+                        <td>{state.price}</td>
+                        <td>
+                          <i
+                            className="fa-solid fa-pen me-3 text-primary"
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                            style={{ cursor: "pointer" }}
+                          ></i>
+                          <i
+                            className="fa-solid fa-trash-can d-inline me-2 text-danger"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              deleteTools(state.id);
+                            }}
+                            style={{ cursor: "pointer" }}
+                          ></i>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <th
+                      style={{ verticalAlign: "middle", textAlign: "center" }}
+                    >
+                      No content
+                    </th>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -210,34 +225,40 @@ const ToolAndSeedList = () => {
                       <td>Error: {seedState?.error}</td>
                     </tr>
                   ) : null}
-                  {!seedState?.loading && seedState.seeds?.length
-                    ? seedState.seeds.map((state) => (
-                        <tr itemScope="row" id={state._id} key={state._id}>
-                          <td>{state.id}</td>
-                          <td>{state.image}</td>
-                          <td>{state.name}</td>
-                          <td>{state.description}</td>
-                          <td>{state.price}</td>
-                          <td>
-                            <i
-                              className="fa-solid fa-pen me-3 text-primary"
-                              onClick={(e) => {
-                                e.preventDefault();
-                              }}
-                              style={{ cursor: "pointer" }}
-                            ></i>
-                            <i
-                              className="fa-solid fa-trash-can d-inline me-2 text-danger"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                deleteSeeds(state.id);
-                              }}
-                              style={{ cursor: "pointer" }}
-                            ></i>
-                          </td>
-                        </tr>
-                      ))
-                    : null}
+                  {!seedState?.loading && seedState.seeds?.length ? (
+                    seedState.seeds.map((state) => (
+                      <tr itemScope="row" id={state._id} key={state._id}>
+                        <td>{state.id}</td>
+                        <td>
+                          <img src={state.image} />
+                        </td>
+                        <td>{state.name}</td>
+                        <td>{state.description}</td>
+                        <td>{state.price}</td>
+                        <td>
+                          <i
+                            className="fa-solid fa-pen me-3 text-primary"
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                            style={{ cursor: "pointer" }}
+                          ></i>
+                          <i
+                            className="fa-solid fa-trash-can d-inline me-2 text-danger"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              deleteSeeds(state.id);
+                            }}
+                            style={{ cursor: "pointer" }}
+                          ></i>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <th className="text-center align-items-center">
+                      No Content
+                    </th>
+                  )}
                 </tbody>
               </table>
             </div>
