@@ -22,7 +22,6 @@ const CountContainer = ({
   const [seedCount, setSeedCount] = useState();
 
   const [item, setItem] = useState("");
-  const [isEdit, setIsEdit] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
