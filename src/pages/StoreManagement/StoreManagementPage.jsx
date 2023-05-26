@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ToolAndSeedList from "../../components/StoreManagement/ToolAndSeedList/ToolAndSeedList";
 import CountContainer from "../../components/StoreManagement/SeedCount/CountContainer";
 import AdminLayout from "../../layouts/adminLayout";
@@ -7,6 +7,10 @@ const StoreManagementPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [item, setItem] = useState("");
+
+  useEffect(() => {
+    !isModelOpen && setIsEdit(false);
+  }, [isModelOpen]);
 
   return (
     <AdminLayout class="wrapper">

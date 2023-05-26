@@ -14,7 +14,7 @@ import {
 } from "../../../store/actions/ToolActions";
 import image1 from "../../../assets/image.png";
 
-const AddSeedAndTools = ({ item, isEdit, setIsModelOpen }) => {
+const AddSeedAndTools = ({ item, isEdit, setIsModelOpen, setIsEdit }) => {
   const toolState = useSelector((state) => state.Tools);
   const seedState = useSelector((state) => state.Seeds);
   const dispatch = useDispatch();
@@ -46,6 +46,16 @@ const AddSeedAndTools = ({ item, isEdit, setIsModelOpen }) => {
           set_Id(toolState.selectedToolList?._id);
         }
       }, [toolState.selectedToolList]);
+
+  !isEdit &&
+    useEffect(() => {
+      setId("");
+      setPrice("");
+      setImage("");
+      setItemName("");
+      setDescription("");
+      set_Id("");
+    }, [isEdit]);
 
   const addToolsAndSeeds = async () => {
     const payload = {
@@ -199,7 +209,7 @@ const AddSeedAndTools = ({ item, isEdit, setIsModelOpen }) => {
         <div className="d-flex justify-content-end ">
           <div>
             <img
-              src={image ? image : image1}
+              src={image && isEdit ? image : image1}
               style={{ objectFit: "cover", width: "150px", height: "150px" }}
             />
           </div>
