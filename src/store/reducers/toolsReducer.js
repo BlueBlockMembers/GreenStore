@@ -4,6 +4,7 @@ import {
   updateTool,
   deleteTool,
   getTool,
+  getOneTool,
 } from "../actions/ToolActions";
 
 let initialState = {
@@ -16,6 +17,7 @@ let initialState = {
   loading: false,
   error: "",
   result: "",
+  selectedToolList: {},
 };
 
 export const toolSlice = createSlice({
@@ -77,6 +79,16 @@ export const toolSlice = createSlice({
       state.loading = false;
       state.tools = [];
       state.error = action.error.message;
+    });
+    builder.addCase(getOneTool.fulfilled, (state, action) => {
+      state.loading = false;
+      state.id = action.payload.id;
+      state.itemName = action.payload.name;
+      state.price = action.payload.price;
+      state.description = action.payload.description;
+      state.selectedToolList = action.payload;
+      state.image = action.payload.image;
+      state.error = "";
     });
   },
 });

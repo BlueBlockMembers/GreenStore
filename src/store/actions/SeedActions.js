@@ -30,3 +30,10 @@ export const getSeed = createAsyncThunk("seed/getAll", async () => {
   const response = await axios.get("http://localhost:8000/api/seeds/getSeed");
   return response.data.data;
 });
+
+export const getOneSeed = createAsyncThunk("seed/getOne", async (payload) => {
+  const response = await axios.get(
+    `http://localhost:8000/api/seeds/getOneSeed/${payload}`
+  );
+  return response.data.data;
+});

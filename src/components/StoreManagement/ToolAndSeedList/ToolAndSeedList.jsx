@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { getTool, deleteTool } from "../../../store/actions/ToolActions";
-import { getSeed, deleteSeed } from "../../../store/actions/SeedActions";
+import {
+  getTool,
+  deleteTool,
+  getOneTool,
+} from "../../../store/actions/ToolActions";
+import {
+  getSeed,
+  deleteSeed,
+  getOneSeed,
+} from "../../../store/actions/SeedActions";
 import { PuffLoader } from "react-spinners";
 
-const ToolAndSeedList = () => {
+const ToolAndSeedList = ({ isEdit, setIsEdit, setIsModelOpen, setItem }) => {
   const toolState = useSelector((state) => state.Tools);
   const seedState = useSelector((state) => state.Seeds);
 
@@ -159,6 +167,10 @@ const ToolAndSeedList = () => {
                             className="fa-solid fa-pen me-3 text-primary"
                             onClick={(e) => {
                               e.preventDefault();
+                              setIsEdit(true);
+                              setIsModelOpen(true);
+                              dispatch(getOneTool(state.id));
+                              setItem("Tool");
                             }}
                             style={{ cursor: "pointer" }}
                           ></i>
@@ -230,7 +242,14 @@ const ToolAndSeedList = () => {
                       <tr itemScope="row" id={state._id} key={state._id}>
                         <td>{state.id}</td>
                         <td>
-                          <img src={state.image} />
+                          <img
+                            style={{
+                              height: "50px",
+                              width: "50px",
+                              objectFit: "cover",
+                            }}
+                            src={state.image}
+                          />
                         </td>
                         <td>{state.name}</td>
                         <td>{state.description}</td>
@@ -240,6 +259,10 @@ const ToolAndSeedList = () => {
                             className="fa-solid fa-pen me-3 text-primary"
                             onClick={(e) => {
                               e.preventDefault();
+                              setIsEdit(true);
+                              setIsModelOpen(true);
+                              dispatch(getOneSeed(state.id));
+                              setItem("Seed");
                             }}
                             style={{ cursor: "pointer" }}
                           ></i>

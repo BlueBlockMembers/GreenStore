@@ -4,6 +4,7 @@ import {
   updateSeed,
   deleteSeed,
   getSeed,
+  getOneSeed,
 } from "../actions/SeedActions";
 
 let initialState = {
@@ -16,6 +17,7 @@ let initialState = {
   loading: false,
   error: "",
   result: "",
+  selectedSeedList: {},
 };
 
 export const seedSlice = createSlice({
@@ -77,6 +79,17 @@ export const seedSlice = createSlice({
       state.loading = false;
       state.seeds = [];
       state.error = action.error.message;
+    });
+
+    builder.addCase(getOneSeed.fulfilled, (state, action) => {
+      state.loading = false;
+      state.id = action.payload.id;
+      state.itemName = action.payload.name;
+      state.price = action.payload.price;
+      state.description = action.payload.description;
+      state.selectedSeedList = action.payload;
+      state.image = action.payload.image;
+      state.error = "";
     });
   },
 });
